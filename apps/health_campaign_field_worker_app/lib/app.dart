@@ -104,6 +104,33 @@ class MainApplicationState extends State<MainApplication>
               // INFO : Need to add bloc of package Here
               BlocProvider(
                 create: (_) {
+                  return DigitScannerBloc(
+                    const DigitScannerState(),
+                  );
+                },
+                lazy: false,
+              ),
+
+              BlocProvider(
+                create: (_) {
+                  return DigitScannerBloc(
+                    const DigitScannerState(),
+                  );
+                },
+                lazy: false,
+              ),
+
+              BlocProvider(
+                create: (_) {
+                  return DigitScannerBloc(
+                    const DigitScannerState(),
+                  );
+                },
+                lazy: false,
+              ),
+
+              BlocProvider(
+                create: (_) {
                   return LocationBloc(location: Location())
                     ..add(const LoadLocationEvent());
                 },
@@ -389,6 +416,7 @@ class MainApplicationState extends State<MainApplication>
                                 selectedLocale!.split("_").first,
                                 selectedLocale.split("_").last,
                               ),
+                              isar: widget.isar,
                             ),
                             locale: languages != null
                                 ? Locale(

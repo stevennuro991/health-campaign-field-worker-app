@@ -1,4 +1,6 @@
 import 'package:complaints/complaints.dart';
+import 'package:attendance_management/attendance_management.dart';
+import 'package:complaints/complaints.dart';
 
 import 'package:attendance_management/models/entities/attendance_log.dart';
 import 'package:survey_form/survey_form.dart';
@@ -86,6 +88,14 @@ class EntityMapper extends EntityMapperListener {
 
       case "userLocation":
         final entity = UserActionModelMapper.fromJson(entityString);
+        return entity;
+
+      case "attendance":
+        final entity = AttendanceLogModelMapper.fromJson(entityString);
+        return entity;
+
+      case "complaints":
+        final entity = PgrServiceModelMapper.fromJson(entityString);
         return entity;
 
       default:

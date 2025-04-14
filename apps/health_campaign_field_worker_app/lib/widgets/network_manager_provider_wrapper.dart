@@ -26,6 +26,10 @@ import '../data/repositories/oplog.dart';
 import '../data/repositories/remote/auth.dart';
 import '../data/repositories/remote/downsync.dart';
 import '../models/downsync/downsync.dart';
+import 'package:registration_delivery/registration_delivery.dart';
+import 'package:attendance_management/attendance_management.dart';
+import 'package:complaints/complaints.dart';
+import 'package:inventory_management/inventory_management.dart';
 
 class NetworkManagerProviderWrapper extends StatelessWidget {
   final LocalSqlDataStore sql;
@@ -277,6 +281,29 @@ class NetworkManagerProviderWrapper extends StatelessWidget {
           PgrServiceOpLogManager(isar),
         ),
       ),
+      RepositoryProvider<
+          LocalRepository<AttendanceRegisterModel,
+              AttendanceRegisterSearchModel>>(
+        create: (_) => AttendanceLocalRepository(
+          sql,
+          AttendanceOpLogManager(isar),
+        ),
+      ),
+      RepositoryProvider<
+          LocalRepository<AttendanceLogModel, AttendanceLogSearchModel>>(
+        create: (_) => AttendanceLogsLocalRepository(
+          sql,
+          AttendanceLogOpLogManager(isar),
+        ),
+      ),
+      RepositoryProvider<
+          LocalRepository<ServiceDefinitionModel,
+              ServiceDefinitionSearchModel>>(
+        create: (_) => ServiceDefinitionLocalRepository(
+          sql,
+          ServiceDefinitionOpLogManager(isar),
+        ),
+      )
     ];
   }
 
@@ -505,6 +532,55 @@ class NetworkManagerProviderWrapper extends StatelessWidget {
               dio,
               actionMap: actions,
             ),
+          ),
+        if (value == DataModelType.householdMember)
+          RepositoryProvider<
+              RemoteRepository<HouseholdMemberModel,
+                  HouseholdMemberSearchModel>>(
+            create: (_) => HouseholdMemberRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.projectBeneficiary)
+          RepositoryProvider<
+              RemoteRepository<ProjectBeneficiaryModel,
+                  ProjectBeneficiarySearchModel>>(
+            create: (_) => ProjectBeneficiaryRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.projectFacility)
+          RepositoryProvider<
+              RemoteRepository<ProjectFacilityModel,
+                  ProjectFacilitySearchModel>>(
+            create: (_) => ProjectFacilityRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.projectStaff)
+          RepositoryProvider<
+              RemoteRepository<ProjectStaffModel, ProjectStaffSearchModel>>(
+            create: (_) => ProjectStaffRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.projectResource)
+          RepositoryProvider<
+              RemoteRepository<ProjectResourceModel,
+                  ProjectResourceSearchModel>>(
+            create: (_) => ProjectResourceRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.hFReferral)
+          RepositoryProvider<
+              RemoteRepository<HFReferralModel, HFReferralSearchModel>>(
+            create: (_) => HFReferralRemoteRepository(dio, actionMap: actions),
           ),
       ]);
     }

@@ -362,14 +362,14 @@ void showDownloadDialog(
   }
 }
 
-
 // Existing _findLeastLevelBoundaryCode method remains unchanged
 String _findLeastLevelBoundaryCode(List<data_model.BoundaryModel> boundaries) {
   data_model.BoundaryModel? highestBoundary;
 
   // Find the boundary with the highest boundaryNum
   for (var boundary in boundaries) {
-    if (highestBoundary == null || (boundary.boundaryNum ?? 0) > (highestBoundary.boundaryNum ?? 0)) {
+    if (highestBoundary == null ||
+        (boundary.boundaryNum ?? 0) > (highestBoundary.boundaryNum ?? 0)) {
       highestBoundary = boundary;
     }
   }
@@ -381,9 +381,10 @@ String _findLeastLevelBoundaryCode(List<data_model.BoundaryModel> boundaries) {
   }
 
   // If the highest boundary has children, recursively search in them
-  if(highestBoundary?.children != null) {
+  if (highestBoundary?.children != null) {
     for (var child in highestBoundary!.children) {
-      String leastCode = _findLeastLevelBoundaryCode([child]); // Recursively find the least level
+      String leastCode = _findLeastLevelBoundaryCode(
+          [child]); // Recursively find the least level
       if (leastCode.isNotEmpty) {
         return leastCode;
       }
@@ -395,7 +396,8 @@ String _findLeastLevelBoundaryCode(List<data_model.BoundaryModel> boundaries) {
 }
 
 // Recursive function to find the least level boundary codes
-List<String> findLeastLevelBoundaries(List<data_model.BoundaryModel> boundaries) {
+List<String> findLeastLevelBoundaries(
+    List<data_model.BoundaryModel> boundaries) {
   // Find the least level boundary type
   String leastLevelType = _findLeastLevelBoundaryCode(boundaries);
 
@@ -403,15 +405,18 @@ List<String> findLeastLevelBoundaries(List<data_model.BoundaryModel> boundaries)
   List<String> leastLevelBoundaryCodes = [];
 
   // Iterate through the boundaries to find matching codes
-  if(leastLevelType.isNotEmpty) {
+  if (leastLevelType.isNotEmpty) {
     for (var boundary in boundaries) {
       // Check if the boundary matches the least-level type and has no children (leaf node)
-      if ((boundary.boundaryType == leastLevelType || boundary.label == leastLevelType) && boundary.children.isEmpty) {
+      if ((boundary.boundaryType == leastLevelType ||
+              boundary.label == leastLevelType) &&
+          boundary.children.isEmpty) {
         // Found a least level boundary with no children (leaf node), add its code
         leastLevelBoundaryCodes.add(boundary.code!);
       } else if (boundary.children.isNotEmpty) {
         // Recursively search in the children
-        List<String> childVillageCodes = findLeastLevelBoundaries(boundary.children);
+        List<String> childVillageCodes =
+            findLeastLevelBoundaries(boundary.children);
         leastLevelBoundaryCodes.addAll(childVillageCodes);
       }
     }
@@ -440,10 +445,13 @@ getLocalizationString(Isar isar, String selectedLocale) async {
 }
 
 List<dss_mappers.DashboardConfigSchema?> filterDashboardConfig(
-    List<dss_mappers.DashboardConfigSchema?>? dashboardConfig, String projectTypeCode) {
-  return dashboardConfig?.where((element) =>
-          element != null && element.projectTypeCode == projectTypeCode)
-      .toList() ?? [];
+    List<dss_mappers.DashboardConfigSchema?>? dashboardConfig,
+    String projectTypeCode) {
+  return dashboardConfig
+          ?.where((element) =>
+              element != null && element.projectTypeCode == projectTypeCode)
+          .toList() ??
+      [];
 }
 
 getSelectedLanguage(AppInitialized state, int index) {
